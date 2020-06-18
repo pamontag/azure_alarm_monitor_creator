@@ -1,0 +1,49 @@
+{
+    "PublicConfig": {
+        "WadCfg": {
+            "DiagnosticMonitorConfiguration": 
+            {
+                "overallQuotaInMB": 4096,
+                "Metrics": {
+                    "resourceId": "/subscriptions/22ceb32e-8c01-427b-878a-dcb88d402021/resourceGroups/test_monitoringazure/providers/Microsoft.Compute/virtualMachines/vmmon1",
+                    "MetricAggregation": [
+                      { "scheduledTransferPeriod": "PT1H" },
+                      { "scheduledTransferPeriod": "PT1M" }
+                    ]
+                  },
+                "PerformanceCounters": {
+                    "scheduledTransferPeriod": "PT1M",
+                    "sinks": "AzMonSink",
+                    "PerformanceCounterConfiguration": [
+                        {
+                            "counterSpecifier": "\\Memory\\Available MBytes",
+                            "sampleRate": "PT60S",
+                            "unit": "MBytes"
+                        },
+                        {
+                            "counterSpecifier": "\\LogicalDisk(_Total)\\% Free Space",
+                            "sampleRate": "PT60S",
+                            "unit": "Percent"
+                        },
+                        {
+                            "counterSpecifier": "\\Processor Information(_Total)\\% Processor Time",
+                            "sampleRate": "PT60S",
+                            "unit": "Percent"
+                        }
+                    ]                    
+                },
+                "SinksConfig":{
+                    "Sink":[
+                        {
+                            "name":"AzMonSink",
+                            "AzureMonitor":{}
+                        }
+                    ]
+                }
+            },
+            "SinksConfig": {
+                "Sink": [{ "AzureMonitor": {}, "name": "AzureMonitor" }]
+            }
+        } 
+    }
+}

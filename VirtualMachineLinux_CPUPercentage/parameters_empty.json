@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "alertName": {
+            "value": "SCR|Progetto|IAASorPAAS|TipoRisorsa|Metrica|Nome_Allarme"
+        },
+        "alertDescription": {
+            "value": "Fase=XXX \nPercentage Free Memory sotto soglia su VM"
+        },
+        "alertFrequency": {
+            "value": "PT15M"
+        },
+        "alertPeriod": {
+            "value": "PT15M"
+        },
+        "alertThreshold": {
+            "value": 90
+        },
+        "alertSeverity": {
+            "value": 1
+        },
+        "vmName": {
+            "value": "vmName"
+        },
+        "workspaceName": {
+            "value": "workspaceName"
+        },
+        "actiongroups_mailtoms_externalid": {
+            "value": "/subscriptions/05c5a471-401a-4a59-b96b-b71894f2a1ea/resourceGroups/normalizzatoreprod/providers/microsoft.insights/actiongroups/mailtoms"
+        }
+    }
+}

@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "alertName": {
+            "type": "String"
+        },
+        "alertDescription": {
+            "type": "String"
+        },
+        "alertFrequency": {
+            "type": "String",
+            "defaultValue": "PT30M"
+        },
+        "alertPeriod": {
+            "type": "String",
+            "defaultValue": "PT5M"
+        },
+        "alertThreshold": {
+            "type": "Int",
+            "defaultValue": 10
+        },
+        "alertSeverity": {
+            "type": "Int",
+            "defaultValue": 1
+        },
+        "vmName": {
+            "type": "String"
+        },
+        "actiongroups_mailtoms_externalid": {
+            "type": "String",
+            "defaultValue": "" 
+        }
+    },
+    "variables": {
+        "vmResourceId": "[resourceId('Microsoft.Compute/virtualMachines',parameters('vmName'))]",
+        "empty": [],
+        "actionGroups": 
+        [
+            {
+                "actionGroupId": "[parameters('actiongroups_mailtoms_externalid')]",
+                "webHookProperties": {}
+            }
+        ]
+    },
+    "resources": [
+        {
+            "type": "microsoft.insights/metricAlerts",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('alertName')]",
+            "location": "global",
+            "properties": {
+                "description": "[parameters('alertDescription')]",
+                "severity": "[parameters('alertSeverity')]",
+                "enabled": true,
+                "scopes": [
+                    "[variables('vmResourceId')]"
+                ],
+                "evaluationFrequency": "[parameters('alertFrequency')]",
+                "windowSize": "[parameters('alertPeriod')]",
+                "criteria": {
+                    "allOf": [
+                        {
+                            "threshold": "[parameters('alertThreshold')]",
+                            "name": "Metric1",
+                            "metricNamespace": "azure.vm.windows.guestmetrics",
+                            "metricName": "LogicalDisk\\% Free Space",
+                            "dimensions": [],
+                            "operator": "LessThan",
+                            "timeAggregation": "Minimum",
+                            "criterionType": "StaticThresholdCriterion"
+                        }
+                    ],
+                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                },
+                "autoMitigate": true,
+                "targetResourceType": "Microsoft.Compute/virtualMachines",
+                "targetResourceRegion": "westeurope",
+                "actions": "[if(empty(parameters('actiongroups_mailtoms_externalid')), variables('empty'), variables('actionGroups'))]"
+                
+            }
+        }
+    ]
+}

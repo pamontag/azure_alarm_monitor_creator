@@ -1,0 +1,6 @@
+Alarm,Name,Resource,Description,Frequence,Period,Threshold,Severity
+VirtualMachine_CPUPercentage,vmmon1_TESTLOCAL_VMCPUPercentage,vmmon1,Fase=FASECROSS\r\nCPU Percentage oltre soglia su vmmon1,15M,15M,90,1
+VirtualMachineLinux_FreeMemoryPercentage,vmmon03linux_TESTLOCAL_VMPercentageFreeMemory,vmmon03linux,Fase=FASECROSS\r\nPercentage Free Memory oltre soglia su vmmon03linux,15M,15M,1640,1
+VirtualMachineLinux_CPUPercentage,vmmon03linux_TESTLOCAL_VMCPUPercentage,vmmon03linux,Fase=FASECROSS\r\nCPU Percentage oltre soglia su vmmon03linux,15M,15M,90,1
+VirtualMachineLinux_LogicalDiskPercentage,vmmon03linux_TESTLOCAL_VMLogicalDiskPercentage,vmmon03linux,Fase=FASECROSS\r\nLogical Disk Percentage oltre soglia su vmmon03linux,30M,30M,10,1
+StorageAccount_FileCapacity,testmonitoringazurediag_TESTLOCAL_StorageAccountFileCapacity,testmonitoringazurediag,Fase=FASECROSS\r\nFile Capacity oltre soglia su testmonitoringazurediag,1H,1H,990GB,1

@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "alertName": {
+            "type": "String"
+        },
+        "alertDescription": {
+            "type": "String"
+        },
+        "alertFrequency": {
+            "type": "String",
+            "defaultValue": "PT1H"
+        },
+        "alertPeriod": {
+            "type": "String",
+            "defaultValue": "PT1H"
+        },
+        "alertThreshold": {
+            "type": "Int",
+            "defaultValue": 1
+        },
+        "alertSeverity": {
+            "type": "Int",
+            "defaultValue": 1
+        },
+        "dataFactoryName": {
+            "type": "String"
+        },
+        "actiongroups_mailtoms_externalid": {
+            "type": "String",
+            "defaultValue": "" 
+        }
+    },
+    "variables": {
+        "dataFactoryResourceId": "[resourceId('microsoft.datafactory/factories',parameters('dataFactoryName'))]",
+        "empty": [],
+        "actionGroups": 
+        [
+            {
+                "actionGroupId": "[parameters('actiongroups_mailtoms_externalid')]",
+                "webHookProperties": {}
+            }
+        ]
+    },
+    "resources": [
+        {
+            "type": "microsoft.insights/metricAlerts",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('alertName')]",
+            "location": "global",
+            "properties": {
+                "description": "[parameters('alertDescription')]",
+                "severity": "[parameters('alertSeverity')]",
+                "enabled": true,
+                "scopes": [
+                    "[variables('dataFactoryResourceId')]"
+                ],
+                "evaluationFrequency": "[parameters('alertFrequency')]",
+                "windowSize": "[parameters('alertPeriod')]",
+                "criteria": {
+                    "allOf": [
+                        {
+                            "threshold": "[parameters('alertThreshold')]",
+                            "name": "Metric1",
+                            "metricNamespace": "microsoft.datafactory/factories",
+                            "metricName": "TriggerFailedRuns",
+                            "dimensions": [],
+                            "operator": "GreaterThan",
+                            "timeAggregation": "Total",
+                            "criterionType": "StaticThresholdCriterion"
+                        }
+                    ],
+                    "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+                },
+                "autoMitigate": true,
+                "targetResourceType": "Microsoft.DataFactory/factories",
+                "targetResourceRegion": "westeurope",
+                "actions": "[if(empty(parameters('actiongroups_mailtoms_externalid')), variables('empty'), variables('actionGroups'))]"
+                
+            }
+        }
+    ]
+}

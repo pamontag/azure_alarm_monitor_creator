@@ -1,0 +1,85 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "alertName": {
+            "type": "String"
+        },
+        "alertDescription": {
+            "type": "String"
+        },
+        "alertFrequency": {
+            "type": "String",
+            "defaultValue": "PT15M"
+        },
+        "alertPeriod": {
+            "type": "String",
+            "defaultValue": "PT15M"
+        },
+        "alertThreshold": {
+            "type": "Int",
+            "defaultValue": 820
+        },
+        "alertSeverity": {
+            "type": "Int",
+            "defaultValue": 1
+        },
+        "workspaceName": {
+            "type": "String"
+        },
+        "vmName": {
+            "type": "String"
+        },
+        "actiongroups_mailtoms_externalid": {
+            "type": "String",
+            "defaultValue": "" 
+        }
+    },
+    "variables": {
+        "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/',parameters('workspaceName'))]",
+        "empty": [],
+        "queryLog": "InsightsMetrics\n| where Namespace == \"Memory\"\n| where Name == \"AvailableMB\"\n| where Computer == \"VMNAME\"\n| summarize avg(Val) by Computer, bin(TimeGenerated, PERIODm)\n| where avg_Val < THRESHOLD",
+        "actionGroups": 
+        [
+            {
+                "actionGroupId": "[parameters('actiongroups_mailtoms_externalid')]",
+                "webHookProperties": {}
+            }
+        ],
+        "frequency": "[int(replace(replace(parameters('alertFrequency'),'PT', ''),'M',''))]",
+        "period": "[int(replace(replace(parameters('alertPeriod'),'PT', ''),'M',''))]"
+    },
+    "resources": [
+        {
+            "type": "microsoft.insights/scheduledqueryrules",
+            "apiVersion": "2018-04-16",
+            "name": "[parameters('alertName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "description": "[parameters('alertDescription')]",
+                "enabled": "true",
+                "source": {
+                    "query": "[replace(replace(replace(variables('queryLog'),'VMNAME',parameters('vmName')),'THRESHOLD',string(parameters('alertThreshold'))),'PERIOD',string(variables('period')))]",
+                    "authorizedResources": [],
+                    "dataSourceId": "[variables('workspaceId')]",
+                    "queryType": "ResultCount"
+                },
+                "schedule": {
+                    "frequencyInMinutes": "[variables('frequency')]",
+                    "timeWindowInMinutes": "[variables('period')]"
+                },
+                "action": {
+                    "severity": "[parameters('alertSeverity')]",
+                    "aznsAction": {
+                        "actionGroup": "[if(empty(parameters('actiongroups_mailtoms_externalid')), variables('empty'), variables('actionGroups'))]"
+                    },
+                    "trigger": {
+                        "thresholdOperator": "GreaterThan",
+                        "threshold": 0
+                    },
+                    "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+                }
+            }
+        }
+    ]        
+}

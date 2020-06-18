@@ -1,0 +1,68 @@
+{
+  "runtimeSettings": [
+    {
+      "handlerSettings": {
+        "protectedSettingsCertThumbprint": "34F2392F23E7EB665FEF71F33D491FE5A61D4E60",
+        "protectedSettings": "MIICggYJKoZIhvcNAQcDoIICczCCAm8CAQAxggFpMIIBZQIBADBNMDkxNzA1BgoJkiaJk/IsZAEZFidXaW5kb3dzIEF6dXJlIENSUCBDZXJ0aWZpY2F0ZSBHZW5lcmF0b3ICECAl4L+/7KOvReyKcTA4orswDQYJKoZIhvcNAQEBBQAEggEAHYLHWf/Rb5ctB/8FMt/J40kOzAqAMdPNj+pFEEo2c5BFds9RupdfyBYH8SdKiwE/q19AsyvjcZTMHWkfjAMCmiw7EXPH/KCBEHyq0e1bEZp51OQ4ELvdFo71dW3ZIFUiq0d6pxs48AbUKI5yHggAToSG8AeKqDX9cChGkGCPLO5Y2p3hagnh935d3+pCsnLTMn1FqI0LBg19RYBn2FP53F7un1qu6MD+d2Nj6io64A7/ay2fj0hZkJWthiX7zMlSzf+QyiXlQAmGtWmejq4drq+7eX6RTYF7jtbtA/7sLV2MsrCSaQmoHM0YtLJqoXOztpFUserMaWYQc2XErSrW2jCB/AYJKoZIhvcNAQcBMBQGCCqGSIb3DQMHBAj/Djgexkg/2ICB2MIwxWvc6zizAkXsNvH+Alq/TVYaoI8pckRlrlp+u1ZyJM3qS2/eXMNQVdLk9K6LJ/NU/FvJiQKdoWIhZRcJS9ZVg5sdCZPinlE0E879XxiTbUyH2PwjXQjg20mPtCYvEilQOWIv6CQV0mCGIYpufqD+OOxdta0GLJ6+3OA1mB1PjU3Syo22ADAs1GUO9mnbJk3UpkIOyz1OU3NxCJUSJVsDEN+l7cRPJ63XG/JSckTf9QymR8DFlVPs3ZSxtg7ypTHFIqG1pvNmySE9LOWIsveqKU/0XscEZg==",
+        "publicSettings": {
+          "StorageAccount": "testmonitoringazurediag",
+          "WadCfg": {
+            "DiagnosticMonitorConfiguration": {
+              "overallQuotaInMB": 5120,
+              "Metrics": {
+                "resourceId": "/subscriptions/22ceb32e-8c01-427b-878a-dcb88d402021/resourceGroups/test_monitoringazure/providers/Microsoft.Compute/virtualMachines/vmmon1",
+                "MetricAggregation": [
+                  { "scheduledTransferPeriod": "PT1H" },
+                  { "scheduledTransferPeriod": "PT1M" }
+                ]
+              },
+              "DiagnosticInfrastructureLogs": {
+                "scheduledTransferLogLevelFilter": "Error",
+                "scheduledTransferPeriod": "PT1M"
+              },
+              "PerformanceCounters": {
+                "scheduledTransferPeriod": "PT1M",
+                "PerformanceCounterConfiguration": [
+                  {
+                    "counterSpecifier": "\\Processor Information(_Total)\\% Processor Time",
+                    "unit": "Percent",
+                    "sampleRate": "PT60S"
+                  },
+                  {
+                    "counterSpecifier": "\\LogicalDisk(_Total)\\% Free Space",
+                    "unit": "Percent",
+                    "sampleRate": "PT60S"
+                  },
+                  {
+                    "counterSpecifier": "\\Memory\\Available MBytes",
+                    "sampleRate": "PT1M",
+                    "unit": "MBytes"
+                  }
+                ],
+                "sinks": "AzureMonitor"
+              },
+              "WindowsEventLog": {
+                "scheduledTransferPeriod": "PT1M",
+                "DataSource": [
+                  {
+                    "name": "Application!*[System[(Level=1 or Level=2 or Level=3)]]"
+                  },
+                  {
+                    "name": "System!*[System[(Level=1 or Level=2 or Level=3)]]"
+                  },
+                  {
+                    "name": "Security!*[System[(band(Keywords,4503599627370496))]]"
+                  }
+                ]
+              },
+              "Directories": { "scheduledTransferPeriod": "PT1M" }
+            },
+            "SinksConfig": {
+              "Sink": [{ "AzureMonitor": {}, "name": "AzureMonitor" }]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

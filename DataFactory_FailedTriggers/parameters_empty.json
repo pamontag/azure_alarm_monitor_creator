@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "alertName": {
+            "value": "SCR|Progetto|PAAS|DataFactory|FailedTriggersRunMetrics|Nome_Allarme"
+        },
+        "alertDescription": {
+            "value": "Descrizione"
+        },
+        "alertFrequency": {
+            "value": "PT1H"
+        },
+        "alertPeriod": {
+            "value": "PT1H"
+        },
+        "alertThreshold": {
+            "value": 0
+        },
+        "alertSeverity": {
+            "value": 1
+        },
+        "dataFactoryName": {
+            "value": "DATAFACTORYNAME"
+        },
+        "actiongroups_mailtoms_externalid": {
+            "value": "/subscriptions/05c5a471-401a-4a59-b96b-b71894f2a1ea/resourceGroups/normalizzatoreprod/providers/microsoft.insights/actiongroups/mailtoms"
+        }
+    }
+}
