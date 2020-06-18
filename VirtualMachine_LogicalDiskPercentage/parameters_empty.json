@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "alertName": {
-            "value": "SCR|Progetto|IAASorPAAS|TipoRisorsa|Metrica|Nome_Allarme"
+            "value": "Alarm Name"
         },
         "alertDescription": {
-            "value": "Fase=XXX \nLogical Disk %Free Space sotto soglia su VM"
+            "value": "Description"
         },
         "alertFrequency": {
             "value": "PT5M"
@@ -23,8 +23,8 @@
         "vmName": {
             "value": "vmName"
         },
-        "actiongroups_mailtoms_externalid": {
-            "value": "/subscriptions/05c5a471-401a-4a59-b96b-b71894f2a1ea/resourceGroups/normalizzatoreprod/providers/microsoft.insights/actiongroups/mailtoms"
+        "actiongroup_id": {
+            "value": "/subscriptions/subscriptionID/resourceGroups/resourceGroupName/providers/microsoft.insights/actiongroups/groupname"
         }
     }
 }

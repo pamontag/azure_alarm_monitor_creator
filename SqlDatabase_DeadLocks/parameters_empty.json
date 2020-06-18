@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "alertName": {
-            "value": "SCR|Progetto|PAAS|SQL_Azure|Deadlocks|Nome_Allarme"
+            "value": "Alarm Name"
         },
         "alertDescription": {
-            "value": "Descrizione"
+            "value": "Description"
         },
         "alertFrequency": {
             "value": "PT30M"
@@ -26,8 +26,8 @@
         "databaseName": {
             "value": "DATABASENAME"
         },
-        "actiongroups_mailtoms_externalid": {
-            "value": "/subscriptions/05c5a471-401a-4a59-b96b-b71894f2a1ea/resourceGroups/normalizzatoreprod/providers/microsoft.insights/actiongroups/mailtoms"
+        "actiongroup_id": {
+            "value": "/subscriptions/subscriptionID/resourceGroups/resourceGroupName/providers/microsoft.insights/actiongroups/groupname"
         }
     }
 }

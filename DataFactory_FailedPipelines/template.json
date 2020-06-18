@@ -27,7 +27,7 @@
         "dataFactoryName": {
             "type": "String"
         },
-        "actiongroups_mailtoms_externalid": {
+        "actiongroup_id": {
             "type": "String",
             "defaultValue": "" 
         }
@@ -38,7 +38,7 @@
         "actionGroups": 
         [
             {
-                "actionGroupId": "[parameters('actiongroups_mailtoms_externalid')]",
+                "actionGroupId": "[parameters('actiongroup_id')]",
                 "webHookProperties": {}
             }
         ]
@@ -76,7 +76,7 @@
                 "autoMitigate": true,
                 "targetResourceType": "Microsoft.DataFactory/factories",
                 "targetResourceRegion": "westeurope",
-                "actions": "[if(empty(parameters('actiongroups_mailtoms_externalid')), variables('empty'), variables('actionGroups'))]"
+                "actions": "[if(empty(parameters('actiongroup_id')), variables('empty'), variables('actionGroups'))]"
                 
             }
         }
