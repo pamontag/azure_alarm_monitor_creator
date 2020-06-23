@@ -5,7 +5,7 @@
             {
                 "overallQuotaInMB": 4096,
                 "Metrics": {
-                    "resourceId": "/subscriptions/22ceb32e-8c01-427b-878a-dcb88d402021/resourceGroups/test_monitoringazure/providers/Microsoft.Compute/virtualMachines/vmmon1",
+                    "resourceId": "/subscriptions/SUBSCRIPTIONID/resourceGroups/RESOURCEGROUPNAME/providers/Microsoft.Compute/virtualMachines/VMNAME",
                     "MetricAggregation": [
                       { "scheduledTransferPeriod": "PT1H" },
                       { "scheduledTransferPeriod": "PT1M" }

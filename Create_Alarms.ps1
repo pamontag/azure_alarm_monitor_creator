@@ -7,6 +7,8 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$SubscriptionName,
     [Parameter(Mandatory=$false)]
+    [string]$DiagnosticsStorageAccountName,
+    [Parameter(Mandatory=$false)]
     [string]$WorkspaceName
 )
 function Login($SubscriptionName)
@@ -57,7 +59,7 @@ function BuildParameters($alarm) {
 
 If(-not (Test-Path $InputAlarmsCSV))
 {
-    Write-Error "File degli allarmi non esistente"
+    Write-Error "Alarm file doesn't exists"
     Exit
 }
 
@@ -72,11 +74,17 @@ foreach($alarm in $alarms) {
         "Deploying template for alarm $($alarm.Alarm) not found into $templatefile. Skip."
         continue 
     }
+    if($alarm.Alarm -like "VirtualMachine_*" -and $DiagnosticsStorageAccountName) {
+        Write-Host "Create diagnostic settings for VM $($alarm.Resource)"
+        Invoke-Expression "$PSScriptRoot\Enable_Diagnostic_Settings\Add_Diagnostics_Extension.ps1 -ResourceGroupName $ResourceGroupName -VMName $($alarm.Resource) -SubscriptionName ""$SubscriptionName"" -StorageAccountName $DiagnosticsStorageAccountName"      
+    }
+
     $params = BuildParameters($alarm)
     
     Write-Host "Deploying alarm with those settings:"
-    $params
-    New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $templateFile -TemplateParameterObject $params
+    Write-Host $params.values
+    $result = New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $templateFile -TemplateParameterObject $params
+    Write-Host "Operation status: $($result.ProvisioningState)"
 }
 
 Write-Host "END"
